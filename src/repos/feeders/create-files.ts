@@ -5,8 +5,8 @@ import Logger from "@hack4impact/logger";
 import { Octokit } from "@octokit/rest";
 
 // Internals
-import { GITHUB_USER } from "../../../constants";
-import { BaseRepoArrContent, Repo } from "../../types";
+import { GITHUB_USER } from "../../constants";
+import { BaseRepoArrContent, Repo } from "../types";
 
 const aliases: Record<string, string[]> = {
   "README.md": ["README", "README.txt"],
@@ -14,7 +14,14 @@ const aliases: Record<string, string[]> = {
 };
 
 class CreateFiles {
-  public static TEMPLATES_PATH = join(__dirname, "templates");
+  public static TEMPLATES_PATH = join(
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "static",
+    "templates"
+  );
   private static fileContents: Record<string, string> | null = null;
 
   private octokit: Octokit;
