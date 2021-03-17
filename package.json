@@ -1,6 +1,13 @@
 {
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "do": "npm run do:repos",
+    "do:ts": "npm run do:repos:ts",
+    "do:repos": "node out/repos/index.js",
+    "do:repos:ts": "ts-node src/repos/index.ts",
+    "build": "tsc -p ./",
+    "start": "tsc -p ./ -w"
+  },
   "dependencies": {
     "@hack4impact/logger": "^3.0.2",
     "@octokit/rest": "^18.3.5",
