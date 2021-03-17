@@ -61,6 +61,7 @@ class CreateFiles {
         message: `(automated) Added ${file}`,
         path: file,
       });
+
       Logger.success(`Created ${file}!`);
     }
   }
@@ -87,7 +88,7 @@ class CreateFiles {
     return !!alreadyExists;
   }
 
-  static async getTemplateFiles() {
+  static async getTemplateFiles(): Promise<void> {
     const files = await readdir(CreateFiles.TEMPLATES_PATH, "utf-8");
 
     for (const file of files) {

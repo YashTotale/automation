@@ -70,5 +70,5 @@ class RepoAutomation {
 if (typeof process.env.GITHUB_TOKEN === "string") {
   new RepoAutomation(process.env.GITHUB_TOKEN).entry();
 } else {
-  throw new Error(`GITHUB_TOKEN environment variable not set`);
+  throw new Error("GITHUB_TOKEN environment variable not set");
 }
