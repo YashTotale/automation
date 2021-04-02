@@ -25,7 +25,6 @@ class RepoAutomation {
 
   async entry(): Promise<void> {
     Logger.bold("Repo Automation");
-    Logger.line();
 
     await this.getRepos();
 

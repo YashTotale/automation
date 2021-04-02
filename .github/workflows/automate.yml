@@ -8,10 +8,6 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        job:
-          - repos
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -28,6 +24,6 @@ jobs:
         run: npm run build
 
       - name: Run Script
-        run: npm run do:'${{ matrix.job }}'
+        run: npm run do
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
