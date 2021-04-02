@@ -1,3 +1,4 @@
+// Externals
 import { join } from "path";
 
 export const GITHUB_USER = "YashTotale";
