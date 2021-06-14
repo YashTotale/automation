@@ -3,7 +3,7 @@
   "scripts": {
     "do": "npm-run-all -p -c --aggregate-output do:*",
     "do:repos": "node out/repos/index.js",
-    "do:google": "node out/google/index.js",
+    "_do:google": "node out/google/index.js",
     "lint": "npx lint-check",
     "lint:staged": "lint-staged",
     "build": "tsc -p ./",

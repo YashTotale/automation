@@ -4,6 +4,8 @@ import { google, Auth, drive_v3 } from "googleapis";
 // Internals
 import subFeeders from "./sub-feeders";
 
+type DriveFiles = Required<drive_v3.Schema$FileList>["files"];
+
 class Drive {
   public static readonly FOLDER_MIME = "application/vnd.google-apps.folder";
   public static readonly DOCS_MIME = "application/vnd.google-apps.document";
@@ -28,7 +30,7 @@ class Drive {
   static async getContents(
     drive: drive_v3.Drive,
     folderId: string
-  ): Promise<Required<drive_v3.Schema$FileList>["files"]> {
+  ): Promise<DriveFiles> {
     const res = await drive.files.list({
       q: `'${folderId}' in parents and trashed = false`,
     });
@@ -38,13 +40,21 @@ class Drive {
     return res.data.files;
   }
 
+  static async getMime(
+    drive: drive_v3.Drive,
+    folderId: string,
+    mime: string
+  ): Promise<DriveFiles> {
+    const files = await Drive.getContents(drive, folderId);
+
+    return files.filter((file) => file.mimeType === mime);
+  }
+
   static async getFolders(
     drive: drive_v3.Drive,
     folderId: string
-  ): Promise<Required<drive_v3.Schema$FileList>["files"]> {
-    const files = await Drive.getContents(drive, folderId);
-
-    return files.filter((file) => file.mimeType === Drive.FOLDER_MIME);
+  ): Promise<DriveFiles> {
+    return Drive.getMime(drive, folderId, Drive.FOLDER_MIME);
   }
 }
 
