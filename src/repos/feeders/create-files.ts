@@ -5,7 +5,7 @@ import Logger from "@hack4impact/logger";
 import { Octokit } from "@octokit/rest";
 
 // Internals
-import { GITHUB_USER } from "../../constants";
+import { GITHUB_USER, ROOT_FOLDER } from "../../constants";
 import { BaseRepoArrContent, Repo } from "../types";
 
 const aliases: Record<string, string[]> = {
@@ -14,14 +14,7 @@ const aliases: Record<string, string[]> = {
 };
 
 class CreateFiles {
-  public static TEMPLATES_PATH = join(
-    __dirname,
-    "..",
-    "..",
-    "..",
-    "static",
-    "templates"
-  );
+  public static TEMPLATES_PATH = join(ROOT_FOLDER, "static", "templates");
   private static fileContents: Record<string, string> | null = null;
 
   private octokit: Octokit;
@@ -79,7 +72,7 @@ class CreateFiles {
   ): Promise<boolean> {
     const aliasArr = aliases[file];
 
-    const alreadyExists = repoContents.find((content) => {
+    const alreadyExists = repoContents.some((content) => {
       if (content.type !== "file") return false;
 
       const lowercased = content.name.toLowerCase();
@@ -92,19 +85,16 @@ class CreateFiles {
       return false;
     });
 
-    return !!alreadyExists;
+    return alreadyExists;
   }
 
   static async getTemplateFiles(): Promise<void> {
+    CreateFiles.fileContents = {};
     const files = await readdir(CreateFiles.TEMPLATES_PATH, "utf-8");
 
     for (const file of files) {
       const FILE_PATH = join(CreateFiles.TEMPLATES_PATH, file);
-
       const content = await readFile(FILE_PATH, "utf-8");
-
-      if (CreateFiles.fileContents === null) CreateFiles.fileContents = {};
-
       CreateFiles.fileContents[file] = content;
     }
   }
